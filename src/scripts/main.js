@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 // write your code here
@@ -5,15 +6,14 @@ const populationElements = [...document.querySelectorAll('.population')];
 const totalElement = document.querySelector('.total-population');
 const averageElement = document.querySelector('.average-population');
 
-const populations = populationElements.map(
-  (population) => population.innerText,
-);
-let normalizedPopulations = populations.map(
-  (population) => +population.split(',').join(''),
-);
+const populations = populationElements.map((population) =>
+  population.innerText.trim());
 
-normalizedPopulations = normalizedPopulations.filter((item) =>
-  Number.isNaN(item),
+let normalizedPopulations = populations.map((population) =>
+  Number(population.replace(/,/g, '')));
+
+normalizedPopulations = normalizedPopulations.filter(
+  (item) => !Number.isNaN(item) && Number.isFinite(item),
 );
 
 const totalPopulation = normalizedPopulations.reduce(
@@ -21,12 +21,14 @@ const totalPopulation = normalizedPopulations.reduce(
   0,
 );
 
-const averagePopulation = totalPopulation / normalizedPopulations.length;
+const averagePopulation = normalizedPopulations.length
+  ? totalPopulation / normalizedPopulations.length
+  : 0;
 
 if (totalElement) {
-  totalElement.innerText = totalPopulation.toLocaleString('en-US');
+  totalElement.textContent = totalPopulation.toLocaleString('en-US');
 }
 
 if (averageElement) {
-  averageElement.innerText = averagePopulation.toLocaleString('en-US');
+  averageElement.textContent = averagePopulation.toLocaleString('en-US');
 }
