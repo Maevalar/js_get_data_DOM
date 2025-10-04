@@ -8,8 +8,12 @@ const averageElement = document.querySelector('.average-population');
 const populations = populationElements.map(
   (population) => population.innerText,
 );
-const normalizedPopulations = populations.map(
+let normalizedPopulations = populations.map(
   (population) => +population.split(',').join(''),
+);
+
+normalizedPopulations = normalizedPopulations.filter((item) =>
+  Number.isNaN(item),
 );
 
 const totalPopulation = normalizedPopulations.reduce(
@@ -20,9 +24,9 @@ const totalPopulation = normalizedPopulations.reduce(
 const averagePopulation = totalPopulation / normalizedPopulations.length;
 
 if (totalElement) {
-  totalElement.innerText = totalPopulation;
+  totalElement.innerText = totalPopulation.toLocaleString('en-US');
 }
 
 if (averageElement) {
-  averageElement.innerText = averagePopulation;
+  averageElement.innerText = averagePopulation.toLocaleString('en-US');
 }
